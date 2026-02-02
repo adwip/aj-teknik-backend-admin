@@ -56,6 +56,7 @@ func (s *restSession) ResultInterceptor(next echo.HandlerFunc) echo.HandlerFunc 
 		if errExtraction != nil {
 			s.log.Fatal(fmt.Sprintf("[\x1b[%dm%s\x1b[0m] %s \n", 31, "FATAL", errExtraction.Error()))
 		}
+		// fmt.Println(" \n")
 		return nil
 	}
 }

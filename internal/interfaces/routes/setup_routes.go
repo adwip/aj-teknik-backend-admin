@@ -6,8 +6,8 @@ import (
 	"github.com/adwip/aj-teknik-backend-admin/internal/handlers/web"
 )
 
-func SetupRoutes(rest *rest.RestHandler, web *web.WebHandler, server infrastructure.HttpServer) {
-	apiRoutes := SetupApiRoutes(rest)
+func SetupRoutes(productHandler *rest.ProductHandler, brandHandler *rest.AdmHandler, web *web.WebHandler, server infrastructure.HttpServer) {
+	apiRoutes := SetupApiRoutes(productHandler, brandHandler)
 	webRoutes := SetupWebRoutes(web)
 
 	apiRoutes.RegisterRoutes(server.RouteInit("/api"))

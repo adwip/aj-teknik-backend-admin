@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"runtime"
 	"strings"
-	// _ "github.com/sirupsen/logrus"
 )
 
 type stacktraceCode string

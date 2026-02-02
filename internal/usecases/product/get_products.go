@@ -1,0 +1,27 @@
+package product
+
+import (
+	"github.com/adwip/aj-teknik-backend-admin/common-lib/session"
+	"github.com/adwip/aj-teknik-backend-admin/internal/usecases/product/requests"
+	"github.com/adwip/aj-teknik-backend-admin/internal/usecases/product/responses"
+)
+
+func (p *productImpl) GetProducts(req requests.GetProductsRequest) (out responses.GetProductsResponse, pagination session.PaginationFormatter, err error) {
+
+	products, pagination, err := p.productRepo.GetProducts(req.Query, req.Category, req.Availability, req.Sort, req.Page, req.Limit)
+	if err != nil {
+		return out, pagination, err
+	}
+
+	for _, product := range products {
+		out.Products = append(out.Products, responses.ProductResponse{
+			ID:    product.ID,
+			Name:  product.Name,
+			Image: product.Image,
+			Price: product.Price,
+			Stock: product.Stock,
+		})
+	}
+
+	return out, pagination, nil
+}

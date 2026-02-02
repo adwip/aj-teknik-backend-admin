@@ -13,6 +13,19 @@ type resultFormatter struct {
 	Message string `json:"message"`
 }
 
+type resultFormatterWithPagination struct {
+	Code       string              `json:"code"`
+	Data       any                 `json:"data"`
+	Message    string              `json:"message"`
+	Pagination PaginationFormatter `json:"pagination"`
+}
+
+type PaginationFormatter struct {
+	Page  int `json:"page"`
+	Limit int `json:"limit"`
+	Total int `json:"total"`
+}
+
 func SetResult(ctx *echo.Context, result any, err error) error {
 	var (
 		httpCode = http.StatusOK
@@ -28,6 +41,26 @@ func SetResult(ctx *echo.Context, result any, err error) error {
 		Code:    errCode,
 		Data:    result,
 		Message: errMsg,
+	})
+	return err
+}
+
+func SetResultWithPagination(ctx *echo.Context, result any, pagination PaginationFormatter, err error) error {
+	var (
+		httpCode = http.StatusOK
+	)
+	errCode, _, _, errMsg, _ := stacktrace.DefineStacktrace(err)
+	if err != nil {
+		httpCode, _, _ = stacktrace.StacktraceToHttpCode(errCode)
+	}
+	if errMsg == "" && err != nil {
+		errMsg = stacktrace.StacktraceMessageByCode(errCode)
+	}
+	ctx.JSON(httpCode, resultFormatterWithPagination{
+		Code:       errCode,
+		Data:       result,
+		Message:    errMsg,
+		Pagination: pagination,
 	})
 	return err
 }

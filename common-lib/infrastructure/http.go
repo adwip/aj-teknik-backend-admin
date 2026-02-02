@@ -24,6 +24,7 @@ func SetupHttpServer(log logger.Logger) HttpServer {
 	restSession := rest_session.SetupRestSession(log)
 	server.Use(restSession.ResultInterceptor)
 	server.HTTPErrorHandler = restSession.ErrorHandler
+	// server.Validator = &echo.PathBinding{}
 	return &httpServer{
 		server: server,
 	}

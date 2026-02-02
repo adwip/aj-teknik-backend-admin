@@ -6,15 +6,25 @@ import (
 )
 
 type apiRoutes struct {
-	rest *rest.RestHandler
+	product *rest.ProductHandler
+	brand   *rest.AdmHandler
 }
 
-func SetupApiRoutes(rest *rest.RestHandler) *apiRoutes {
+func SetupApiRoutes(product *rest.ProductHandler, brand *rest.AdmHandler) *apiRoutes {
 	return &apiRoutes{
-		rest: rest,
+		product: product,
+		brand:   brand,
 	}
 }
 
 func (a *apiRoutes) RegisterRoutes(g *echo.Group) {
-	g.GET("/test", a.rest.TestRequest)
+	// products
+	g.GET("/products", a.product.GetProducts)
+	g.POST("/products", a.product.CreateProduct)
+	// g.PUT("/products/:id", a.rest.UpdateProduct)
+	// g.DELETE("/products/:id", a.rest.DeleteProduct)
+
+	// brand
+	// g.GET("/brands", a.brand.GetBrands)
+	g.POST("/brands", a.brand.AddBrand)
 }

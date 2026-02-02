@@ -1,11 +1,16 @@
 package mysql
 
-import "github.com/adwip/aj-teknik-backend-admin/internal/model"
+import (
+	"github.com/adwip/aj-teknik-backend-admin/common-lib/sql"
+	"github.com/adwip/aj-teknik-backend-admin/internal/model"
+)
 
 type usersRepository struct {
-	// put db variables	instances here
+	db *sql.DB
 }
 
-func SetupUsersRepository() model.Users {
-	return &usersRepository{}
+func SetupUsersRepository(db *sql.DB) model.Users {
+	return &usersRepository{
+		db: db,
+	}
 }
