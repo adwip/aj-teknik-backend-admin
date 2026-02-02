@@ -38,7 +38,7 @@ func SetupServiceContainer() (err error) {
 
 	// setup usecase
 	// _ = admin.SetupAdminUsecase()
-	productUsecase := product.SetupProductUsecase(report, productRepo)
+	productUsecase := product.SetupProductUsecase(report, productRepo, brandRepo)
 	brandUsecase := administration.SetupAdministrationUsecase(brandRepo)
 
 	// setup handler

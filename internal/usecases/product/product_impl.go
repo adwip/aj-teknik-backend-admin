@@ -8,11 +8,13 @@ import (
 type productImpl struct {
 	log         report.Report
 	productRepo model.Products
+	brandRepo   model.Brands
 }
 
-func SetupProductUsecase(log report.Report, productRepo model.Products) Product {
+func SetupProductUsecase(log report.Report, productRepo model.Products, brandRepo model.Brands) Product {
 	return &productImpl{
 		log:         log,
 		productRepo: productRepo,
+		brandRepo:   brandRepo,
 	}
 }

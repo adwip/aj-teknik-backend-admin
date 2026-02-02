@@ -2,17 +2,17 @@ package mysql
 
 import (
 	"github.com/adwip/aj-teknik-backend-admin/common-lib/session"
-	"github.com/adwip/aj-teknik-backend-admin/common-lib/sql"
+	"github.com/adwip/aj-teknik-backend-admin/common-lib/sql_lib"
 	"github.com/adwip/aj-teknik-backend-admin/common-lib/stacktrace"
 	"github.com/adwip/aj-teknik-backend-admin/internal/model"
 	"github.com/adwip/aj-teknik-backend-admin/internal/model/entity"
 )
 
 type productsRepo struct {
-	db *sql.DB
+	db *sql_lib.DB
 }
 
-func SetupProductsRepository(db *sql.DB) model.Products {
+func SetupProductsRepository(db *sql_lib.DB) model.Products {
 	return &productsRepo{
 		db: db,
 	}
@@ -47,9 +47,12 @@ func (p *productsRepo) GetProducts(name, category string, availability bool, sor
 }
 
 func (p *productsRepo) CreateProduct(req entity.Products) (err error) {
-	query := "INSERT INTO products (name, code, category_id, brand_id, description) VALUES (?, ?, ?, ?, ?)"
+	query := "INSERT INTO products (name, secure_id, price, stock, code, category_id, brand_id, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
 	args := []interface{}{
 		req.Name,
+		req.SecureID,
+		req.Price,
+		req.Stock,
 		req.Code,
 		req.CategoryId,
 		req.BrandId,

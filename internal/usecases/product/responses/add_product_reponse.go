@@ -1,6 +1,6 @@
 package responses
 
 type AddProductResponse struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
+	SecureID string `json:"secure_id"`
+	Name     string `json:"name"`
 }

@@ -2,6 +2,7 @@ package product
 
 import (
 	"github.com/adwip/aj-teknik-backend-admin/common-lib/session"
+	"github.com/adwip/aj-teknik-backend-admin/common-lib/stacktrace"
 	"github.com/adwip/aj-teknik-backend-admin/internal/usecases/product/requests"
 	"github.com/adwip/aj-teknik-backend-admin/internal/usecases/product/responses"
 )
@@ -10,7 +11,7 @@ func (p *productImpl) GetProducts(req requests.GetProductsRequest) (out response
 
 	products, pagination, err := p.productRepo.GetProducts(req.Query, req.Category, req.Availability, req.Sort, req.Page, req.Limit)
 	if err != nil {
-		return out, pagination, err
+		return out, pagination, stacktrace.Cascade(err, stacktrace.INTERNAL_SERVER_ERROR, stacktrace.MESSAGE_INTERNAL_SERVER_ERROR)
 	}
 
 	for _, product := range products {
