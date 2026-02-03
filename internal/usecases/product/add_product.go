@@ -4,7 +4,7 @@ import (
 	"errors"
 
 	"github.com/adwip/aj-teknik-backend-admin/common-lib/stacktrace"
-	"github.com/adwip/aj-teknik-backend-admin/internal/model/entity"
+	"github.com/adwip/aj-teknik-backend-admin/internal/model/entities"
 	"github.com/adwip/aj-teknik-backend-admin/internal/shared/utils"
 	"github.com/adwip/aj-teknik-backend-admin/internal/usecases/product/requests"
 	"github.com/adwip/aj-teknik-backend-admin/internal/usecases/product/responses"
@@ -32,7 +32,7 @@ func (p *productImpl) CreateProduct(req requests.AddProductRequest) (out respons
 		return out, stacktrace.CascadeWithClientMessage(err, stacktrace.INVALID_INPUT, err.Error())
 	}
 
-	newProduct := entity.Products{
+	newProduct := entities.Products{
 		Name:     req.Name,
 		SecureID: utils.GenerateUUID(),
 		// Price:       req.Price,

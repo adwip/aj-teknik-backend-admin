@@ -9,7 +9,7 @@ import (
 
 func (p *productImpl) GetProducts(req requests.GetProductsRequest) (out responses.GetProductsResponse, pagination session.PaginationFormatter, err error) {
 
-	products, pagination, err := p.productRepo.GetProducts(req.Query, req.Category, req.Availability, req.Sort, req.Page, req.Limit)
+	products, pagination, err := p.productRepo.GetProducts(req)
 	if err != nil {
 		return out, pagination, stacktrace.Cascade(err, stacktrace.INTERNAL_SERVER_ERROR, stacktrace.MESSAGE_INTERNAL_SERVER_ERROR)
 	}
@@ -20,6 +20,8 @@ func (p *productImpl) GetProducts(req requests.GetProductsRequest) (out response
 			Name:     product.Name,
 			Image:    product.Image,
 			Code:     product.Code,
+			Category: product.Category,
+			Brand:    product.Brand,
 			// Price: product.Price,
 			Stock: product.Stock,
 		})

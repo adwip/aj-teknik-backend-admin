@@ -8,6 +8,7 @@ import (
 type GetProductsRequest struct {
 	Query        string `query:"query"`
 	Category     string `query:"category"`
+	Brand        string `query:"brand"`
 	Availability bool   `query:"availability"`
 	Sort         string `query:"sort"`
 	Page         int    `query:"page"`

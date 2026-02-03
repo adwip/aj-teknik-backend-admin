@@ -7,7 +7,7 @@ import (
 	"github.com/adwip/aj-teknik-backend-admin/common-lib/sql_lib"
 	"github.com/adwip/aj-teknik-backend-admin/common-lib/stacktrace"
 	"github.com/adwip/aj-teknik-backend-admin/internal/model"
-	"github.com/adwip/aj-teknik-backend-admin/internal/model/entity"
+	"github.com/adwip/aj-teknik-backend-admin/internal/model/entities"
 )
 
 type brandRepo struct {
@@ -20,7 +20,7 @@ func SetupBrandRepository(db *sql_lib.DB) model.Brands {
 	}
 }
 
-func (b *brandRepo) CreateBrand(req entity.Brands) (err error) {
+func (b *brandRepo) CreateBrand(req entities.Brands) (err error) {
 	query := "INSERT INTO brands (name, secure_id, description) VALUES (?, ?, ?)"
 	args := []interface{}{
 		req.Name,
@@ -35,7 +35,7 @@ func (b *brandRepo) CreateBrand(req entity.Brands) (err error) {
 	return nil
 }
 
-func (b *brandRepo) GetBrandById(secureId string) (out entity.Brands, err error) {
+func (b *brandRepo) GetBrandById(secureId string) (out entities.Brands, err error) {
 	query := "SELECT * FROM brands WHERE secure_id = ?"
 	args := []interface{}{
 		secureId,
@@ -50,7 +50,7 @@ func (b *brandRepo) GetBrandById(secureId string) (out entity.Brands, err error)
 	return out, nil
 }
 
-func (b *brandRepo) GetAllBrands() (out []entity.Brands, err error) {
+func (b *brandRepo) GetAllBrands() (out []entities.Brands, err error) {
 	query := "SELECT * FROM brands ORDER BY name ASC"
 
 	if err = b.db.Select(&out, query); err != nil {
@@ -59,7 +59,7 @@ func (b *brandRepo) GetAllBrands() (out []entity.Brands, err error) {
 	return out, nil
 }
 
-func (b *brandRepo) UpdateBrand(secureId string, req entity.Brands) (err error) {
+func (b *brandRepo) UpdateBrand(secureId string, req entities.Brands) (err error) {
 	query := "UPDATE brands SET name = ?, description = ? WHERE secure_id = ?"
 	args := []interface{}{
 		req.Name,

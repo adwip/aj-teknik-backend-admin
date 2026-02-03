@@ -7,7 +7,7 @@ import (
 	"github.com/adwip/aj-teknik-backend-admin/common-lib/sql_lib"
 	"github.com/adwip/aj-teknik-backend-admin/common-lib/stacktrace"
 	"github.com/adwip/aj-teknik-backend-admin/internal/model"
-	"github.com/adwip/aj-teknik-backend-admin/internal/model/entity"
+	"github.com/adwip/aj-teknik-backend-admin/internal/model/entities"
 )
 
 type categoryRepo struct {
@@ -20,7 +20,7 @@ func SetupCategoryRepository(db *sql_lib.DB) model.Category {
 	}
 }
 
-func (c *categoryRepo) CreateCategory(req entity.Category) (err error) {
+func (c *categoryRepo) CreateCategory(req entities.Category) (err error) {
 	query := "INSERT INTO categories (name, secure_id, description) VALUES (?, ?, ?)"
 	args := []interface{}{
 		req.Name,
@@ -35,7 +35,7 @@ func (c *categoryRepo) CreateCategory(req entity.Category) (err error) {
 	return nil
 }
 
-func (c *categoryRepo) GetCategoryById(secureId string) (out entity.Category, err error) {
+func (c *categoryRepo) GetCategoryById(secureId string) (out entities.Category, err error) {
 	query := "SELECT * FROM categories WHERE secure_id = ?"
 	args := []interface{}{
 		secureId,
@@ -50,7 +50,7 @@ func (c *categoryRepo) GetCategoryById(secureId string) (out entity.Category, er
 	return out, nil
 }
 
-func (c *categoryRepo) GetAllCategories() (out []entity.Category, err error) {
+func (c *categoryRepo) GetAllCategories() (out []entities.Category, err error) {
 	query := "SELECT * FROM categories ORDER BY name ASC"
 
 	if err = c.db.Select(&out, query); err != nil {
@@ -59,7 +59,7 @@ func (c *categoryRepo) GetAllCategories() (out []entity.Category, err error) {
 	return out, nil
 }
 
-func (c *categoryRepo) GetCategoryTree() (out []entity.Category, err error) {
+func (c *categoryRepo) GetCategoryTree() (out []entities.Category, err error) {
 	query := "SELECT * FROM categories ORDER BY parent ASC, name ASC"
 
 	if err = c.db.Select(&out, query); err != nil {
@@ -68,7 +68,7 @@ func (c *categoryRepo) GetCategoryTree() (out []entity.Category, err error) {
 	return out, nil
 }
 
-func (c *categoryRepo) UpdateCategory(secureId string, req entity.Category) (err error) {
+func (c *categoryRepo) UpdateCategory(secureId string, req entities.Category) (err error) {
 	query := "UPDATE categories SET name = ?, description = ?, parent = ? WHERE secure_id = ?"
 	args := []interface{}{
 		req.Name,
