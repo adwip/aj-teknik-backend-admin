@@ -35,11 +35,12 @@ func SetupServiceContainer() (err error) {
 	_ = mysql.SetupUsersRepository(db)
 	productRepo := mysql.SetupProductsRepository(db)
 	brandRepo := mysql.SetupBrandRepository(db)
+	categoryRepo := mysql.SetupCategoryRepository(db)
 
 	// setup usecase
 	// _ = admin.SetupAdminUsecase()
-	productUsecase := product.SetupProductUsecase(report, productRepo, brandRepo)
-	brandUsecase := administration.SetupAdministrationUsecase(brandRepo)
+	productUsecase := product.SetupProductUsecase(report, productRepo, brandRepo, categoryRepo)
+	brandUsecase := administration.SetupAdministrationUsecase(brandRepo, categoryRepo)
 
 	// setup handler
 	productHandler := rest.SetupProductHandler(productUsecase)

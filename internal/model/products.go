@@ -8,4 +8,5 @@ import (
 type Products interface {
 	GetProducts(name, category string, availability bool, sort string, page, limit int) (out []entity.Products, pagination session.PaginationFormatter, err error)
 	CreateProduct(req entity.Products) (err error)
+	GetProductById(secureID string) (out entity.Products, err error)
 }

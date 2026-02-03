@@ -5,9 +5,13 @@ type GetProductsResponse struct {
 }
 
 type ProductResponse struct {
-	ID    string  `json:"id"`
-	Name  string  `json:"name"`
-	Image string  `json:"image"`
-	Price float64 `json:"price"`
-	Stock int     `json:"stock"`
+	SecureID    string  `json:"secure_id"`
+	Name        string  `json:"name"`
+	Code        string  `json:"code"`
+	Image       string  `json:"image"`
+	Price       float64 `json:"price"`
+	Stock       float64 `json:"stock"`
+	Description string  `json:"description"`
+	Category    string  `json:"category"`
+	Brand       string  `json:"brand"`
 }

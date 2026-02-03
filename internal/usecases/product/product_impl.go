@@ -6,15 +6,17 @@ import (
 )
 
 type productImpl struct {
-	log         report.Report
-	productRepo model.Products
-	brandRepo   model.Brands
+	log          report.Report
+	productRepo  model.Products
+	brandRepo    model.Brands
+	categoryRepo model.Category
 }
 
-func SetupProductUsecase(log report.Report, productRepo model.Products, brandRepo model.Brands) Product {
+func SetupProductUsecase(log report.Report, productRepo model.Products, brandRepo model.Brands, categoryRepo model.Category) Product {
 	return &productImpl{
-		log:         log,
-		productRepo: productRepo,
-		brandRepo:   brandRepo,
+		log:          log,
+		productRepo:  productRepo,
+		brandRepo:    brandRepo,
+		categoryRepo: categoryRepo,
 	}
 }

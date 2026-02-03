@@ -49,3 +49,40 @@ func (b *brandRepo) GetBrandById(secureId string) (out entity.Brands, err error)
 	}
 	return out, nil
 }
+
+func (b *brandRepo) GetAllBrands() (out []entity.Brands, err error) {
+	query := "SELECT * FROM brands ORDER BY name ASC"
+
+	if err = b.db.Select(&out, query); err != nil {
+		return out, stacktrace.Cascade(err, stacktrace.INTERNAL_SERVER_ERROR, stacktrace.MESSAGE_INTERNAL_SERVER_ERROR)
+	}
+	return out, nil
+}
+
+func (b *brandRepo) UpdateBrand(secureId string, req entity.Brands) (err error) {
+	query := "UPDATE brands SET name = ?, description = ? WHERE secure_id = ?"
+	args := []interface{}{
+		req.Name,
+		req.Description,
+		secureId,
+	}
+
+	_, err = b.db.Exec(query, args...)
+	if err != nil {
+		return stacktrace.Cascade(err, stacktrace.INTERNAL_SERVER_ERROR, stacktrace.MESSAGE_INTERNAL_SERVER_ERROR)
+	}
+	return nil
+}
+
+func (b *brandRepo) DeleteBrand(secureId string) (err error) {
+	query := "DELETE FROM brands WHERE secure_id = ?"
+	args := []interface{}{
+		secureId,
+	}
+
+	_, err = b.db.Exec(query, args...)
+	if err != nil {
+		return stacktrace.Cascade(err, stacktrace.INTERNAL_SERVER_ERROR, stacktrace.MESSAGE_INTERNAL_SERVER_ERROR)
+	}
+	return nil
+}

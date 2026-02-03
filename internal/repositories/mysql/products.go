@@ -36,8 +36,8 @@ func (p *productsRepo) GetProducts(name, category string, availability bool, sor
 		query += " order by " + sort
 	}
 
-	query += " limit ? offset ?"
-	args = append(args, limit, (page-1)*limit)
+	query += " limit ?"
+	args = append(args, limit)
 
 	err = p.db.Select(&out, query, args...)
 	if err != nil {
@@ -51,7 +51,7 @@ func (p *productsRepo) CreateProduct(req entity.Products) (err error) {
 	args := []interface{}{
 		req.Name,
 		req.SecureID,
-		req.Price,
+		// req.Price,
 		req.Stock,
 		req.Code,
 		req.CategoryId,
@@ -64,4 +64,13 @@ func (p *productsRepo) CreateProduct(req entity.Products) (err error) {
 		return stacktrace.Cascade(err, stacktrace.INTERNAL_SERVER_ERROR, stacktrace.MESSAGE_INTERNAL_SERVER_ERROR)
 	}
 	return nil
+}
+
+func (p *productsRepo) GetProductById(secureID string) (out entity.Products, err error) {
+	query := "SELECT * FROM products WHERE secure_id = ?"
+	err = p.db.Get(&out, query, secureID)
+	if err != nil {
+		return out, stacktrace.Cascade(err, stacktrace.INTERNAL_SERVER_ERROR, stacktrace.MESSAGE_INTERNAL_SERVER_ERROR)
+	}
+	return out, nil
 }

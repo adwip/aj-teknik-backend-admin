@@ -45,3 +45,16 @@ func (r *ProductHandler) CreateProduct(c *echo.Context) error {
 	}
 	return session.SetResult(c, out, nil)
 }
+
+func (h *ProductHandler) GetProductById(c *echo.Context) error {
+	req, err := requests.NewGetProductByIdRequest(c)
+	if err != nil {
+		return session.SetResult(c, nil, stacktrace.Cascade(err, stacktrace.INVALID_INPUT, stacktrace.MESSAGE_INVALID_INPUT))
+	}
+
+	out, err := h.product.GetProductById(req)
+	if err != nil {
+		return session.SetResult(c, nil, stacktrace.Cascade(err, stacktrace.INTERNAL_SERVER_ERROR, stacktrace.MESSAGE_INTERNAL_SERVER_ERROR))
+	}
+	return session.SetResult(c, out, nil)
+}

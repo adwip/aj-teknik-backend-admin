@@ -12,6 +12,16 @@ import (
 
 func (p *productImpl) CreateProduct(req requests.AddProductRequest) (out responses.AddProductResponse, err error) {
 
+	category, err := p.categoryRepo.GetCategoryById(req.Category)
+	if err != nil {
+		return out, stacktrace.Cascade(err, stacktrace.INTERNAL_SERVER_ERROR, stacktrace.MESSAGE_INTERNAL_SERVER_ERROR)
+	}
+
+	if category.SecureID == "" {
+		err = errors.New("Category not Found")
+		return out, stacktrace.CascadeWithClientMessage(err, stacktrace.INVALID_INPUT, err.Error())
+	}
+
 	brand, err := p.brandRepo.GetBrandById(req.Brand)
 	if err != nil {
 		return out, stacktrace.Cascade(err, stacktrace.INTERNAL_SERVER_ERROR, stacktrace.MESSAGE_INTERNAL_SERVER_ERROR)
@@ -25,11 +35,11 @@ func (p *productImpl) CreateProduct(req requests.AddProductRequest) (out respons
 	newProduct := entity.Products{
 		Name:     req.Name,
 		SecureID: utils.GenerateUUID(),
-		Price:    req.Price,
-		Stock:    req.Stock,
-		Code:     req.Code,
-		BrandId:  brand.SecureID,
-		// CategoryId:  req.CategoryId,
+		// Price:       req.Price,
+		Stock:       req.Stock,
+		Code:        req.Code,
+		BrandId:     brand.SecureID,
+		CategoryId:  category.SecureID,
 		Description: req.Description,
 	}
 

@@ -9,4 +9,5 @@ import (
 type Product interface {
 	GetProducts(req requests.GetProductsRequest) (out responses.GetProductsResponse, pagination session.PaginationFormatter, err error)
 	CreateProduct(req requests.AddProductRequest) (out responses.AddProductResponse, err error)
+	GetProductById(req requests.GetProductByIdRequest) (out responses.GetProductByIdResponse, err error)
 }

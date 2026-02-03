@@ -4,7 +4,9 @@ import (
 	"fmt"
 
 	"github.com/adwip/aj-teknik-backend-admin/common-lib/logger"
+	"github.com/adwip/aj-teknik-backend-admin/common-lib/middleware"
 	"github.com/adwip/aj-teknik-backend-admin/common-lib/session/rest_session"
+	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v5"
 )
 
@@ -24,7 +26,10 @@ func SetupHttpServer(log logger.Logger) HttpServer {
 	restSession := rest_session.SetupRestSession(log)
 	server.Use(restSession.ResultInterceptor)
 	server.HTTPErrorHandler = restSession.ErrorHandler
-	// server.Validator = &echo.PathBinding{}
+	server.Validator = &middleware.FormValidator{
+		Validator: validator.New(),
+	}
+
 	return &httpServer{
 		server: server,
 	}

@@ -9,7 +9,7 @@ type AddProductRequest struct {
 	Name           string           `json:"name" validate:"required"`
 	Code           string           `json:"code" validate:"required"`
 	Price          float64          `json:"price" validate:"required"`
-	Stock          int              `json:"stock" validate:"required"`
+	Stock          float64          `json:"stock" validate:"required"`
 	Category       string           `json:"category" validate:"required"`
 	Brand          string           `json:"brand" validate:"required"`
 	Description    string           `json:"description" validate:"required"`

@@ -16,10 +16,11 @@ func (p *productImpl) GetProducts(req requests.GetProductsRequest) (out response
 
 	for _, product := range products {
 		out.Products = append(out.Products, responses.ProductResponse{
-			ID:    product.ID,
-			Name:  product.Name,
-			Image: product.Image,
-			Price: product.Price,
+			SecureID: product.SecureID,
+			Name:     product.Name,
+			Image:    product.Image,
+			Code:     product.Code,
+			// Price: product.Price,
 			Stock: product.Stock,
 		})
 	}
